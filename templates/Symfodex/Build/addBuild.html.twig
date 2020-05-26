@@ -1,0 +1,13 @@
+{% extends "Symfodex/build_layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Add{% endblock %}
+
+{% block sd_build_body %}
+
+	<h2>Ajouter un build</h2>
+	
+	<div class="formulaire">
+		{{ include("Symfodex/Build/_form.html.twig") }}
+	</div>
+
+{% endblock %}

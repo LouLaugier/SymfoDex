@@ -1,0 +1,23 @@
+{% extends "Symfodex/build_layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Delete{% endblock %}
+
+{% block sd_build_body %}
+
+	<h2>Supprimer un build.</h2>
+	
+	<p>
+		Etes-vous certain de vouloir supprimer le build "{{ build.title }}" ?
+	</p>
+	
+	<form action="{{ path('sd_pok_delete', {'id': build.id}) }}" method="post">
+		<a href="{{ path('sd_pok_view', {'id': build.id}) }}" class="btn btn-default">
+			<i class="glyphicon glyphicon-chevron-left"></i>
+			Retour au build
+		</a>
+		
+		<input type="submit" value="Supprimer" class="btn btn-danger" />
+		
+	</form>
+
+{% endblock %}

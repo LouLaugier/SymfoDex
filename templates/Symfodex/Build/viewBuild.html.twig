@@ -1,0 +1,201 @@
+{% extends "Symfodex/build_layout.html.twig" %}
+
+{% block title %}Build - {{ parent() }}{% endblock %}
+
+{% block sd_build_body %}
+
+	{% if build.image is not null %}
+		<img src="{{ build.image.url }}" alt="{{ build.image.alt }}">
+	{% endif %}
+
+	<h2>{{ build.title }}</h2>
+	<i>Par {{ build.author }}</i>
+	
+	<div class="well">
+		<p>Pokemon n°{{ build.pokemon.num }}: {{ build.pokemon.name }}</p>
+		
+		{% if not build.pokemon.types.empty %}
+			<p>Type(s) : 
+				{% for type in build.pokemon.types %}
+				  {{ type.name }}{% if not loop.last %}, {% endif %}
+				{% endfor %}
+			</p>	
+		{% endif %}
+		
+		<div>
+			<table style="width:600px;">
+				<tr>
+					<td width="12%"></td>
+					<td width="12%">
+						<div>Base</div>
+					</td>
+					<td width="40%"></td>
+					<td width="12%">
+						<div>EVs</div>
+					</td>
+					<td width="12%">
+						<div>IVs</div>
+					</td>
+					<td width="12%">
+						<div>Total</div>
+					</td>
+				</tr>
+				<tr>
+				  <td>
+					<div>Pv :</div>
+				  </td>
+				  <td>
+					<div id="basePv">{{ build.pokemon.baseStatPv }}</div>
+				  </td> 
+				  <td><div class="graphBar" id="barPv"></div></td>	
+				  <td>
+					<div class="ev pv">{{ build.evPv }}</div>
+				  </td>
+				  <td>
+					<div class="iv pv">{{ build.ivPv }}</div>
+				  </td>
+				  <td>
+					<div id="totalPv"></div>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					<div>Atk :</div>
+				  </td>
+				  <td>
+					<div id="baseAtk">{{ build.pokemon.baseStatAtk }}</div>
+				  </td>
+				  <td><div class="graphBar" id="barAtk"></div></td>
+				  <td>
+					<div class="ev atk">{{ build.evAtk }}</div>
+				  </td>
+				  <td>
+					<div class="iv atk">{{ build.ivAtk }}</div>
+				  </td>
+				  <td>
+					<div id="totalAtk"></div>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					<div>Def :</div>
+				  </td>
+				  <td>
+					<div id="baseDef">{{ build.pokemon.baseStatDef }}</div>
+				  </td>
+				  <td><div class="graphBar" id="barDef"></div></td>
+				  <td>
+					<div class="ev def">{{ build.evDef }}</div>
+				  </td>
+				  <td>
+					<div class="iv def">{{ build.ivDef }}</div>
+				  </td>
+				  <td>
+					<div id="totalDef"></div>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					<div>Spa :</div>
+				  </td>
+				  <td>
+					<div id="baseSpa">{{ build.pokemon.baseStatSpa }}</div>
+				  </td>
+				  <td><div class="graphBar" id="barSpa"></div></td>
+				  <td>
+					<div class="ev spa">{{ build.evSpa }}</div>
+				  </td>
+				  <td>
+					<div class="iv spa">{{ build.ivSpa }}</div>
+				  </td>
+				  <td>
+					<div id="totalSpa"></div>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					<div>Spd :</div>
+				  </td>
+				  <td>
+					<div id="baseSpd">{{ build.pokemon.baseStatSpd }}</div>
+				  </td>
+				  <td><div class="graphBar" id="barSpd"></div></td>
+				  <td>
+					<div class="ev spd">{{ build.evSpd }}</div>
+				  </td>
+				  <td>
+					<div class="iv spd">{{ build.ivSpd }}</div>
+				  </td>
+				  <td>
+					<div id="totalSpd"></div>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+					<div>Spe :</div>
+				  </td>
+				  <td>
+					<div id="baseSpe">{{ build.pokemon.baseStatSpe }}</div>
+				  </td>
+				  <td><div class="graphBar" id="barSpe"></div></td>
+				  <td>
+					<div class="ev spe">{{ build.evSpe }}</div>
+				  </td>
+				  <td>
+					<div class="iv spe">{{ build.ivSpe }}</div>
+				  </td>
+				  <td>
+					<div id="totalSpe"></div>
+				  </td>
+				</tr>
+			</table>
+		
+		</div>
+		
+		<br>
+		
+		<p>Nature : {{ build.nature.name }}</p>
+		<p>Talent : {{ build.ability.name }}</p>
+		
+		{% if not build.pokemon.moves.empty %}
+			<p>Attaque(s) : 
+				{% for move in build.pokemon.moves %}
+				  {{ move.name }}{% if not loop.last %}, {% endif %}
+				{% endfor %}
+			</p>
+		{% endif %}
+		
+		<br>
+		{{ build.content }}
+	</div>
+
+	<p>
+		<a href="{{ path('sd_pok_index') }}" class="btn btn-default">
+			<i class="glyphicon glyphicon-chevron-left"></i>
+			Retour à la liste
+		</a>
+		<a href="{{ path('sd_pok_edit', {'id': build.id}) }}" class="btn btn-default">
+			<i class="glyphicon glyphicon-edit"></i>
+			Modifier le build
+		</a>
+		<a href="{{ path('sd_pok_delete', {'id': build.id}) }}" class="btn btn-danger">
+			<i class="glyphicon glyphicon-trash"></i>
+			Supprimer le build
+		</a>
+	  </p>
+	  
+	<script>
+		$(document).ready(function () {
+			natureBonus = {	'Atk': {{ build.nature.AtkBonus }},
+							'Def': {{ build.nature.DefBonus }}, 
+							'Spa': {{ build.nature.SpABonus }},
+							'Spd': {{ build.nature.SpDBonus }},
+							'Spe': {{ build.nature.SpeBonus }}};
+			console.log($('.iv.atk').text());
+			setAllTotStat(true, false);
+			setStatBar(true, 300);
+		});
+	</script>
+
+{% endblock %}
+

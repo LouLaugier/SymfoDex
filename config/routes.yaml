@@ -1,0 +1,7 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+#sd_page_index:
+#    path:       /symfodex
+#    controller: App\Controller\SymfoDexController::index

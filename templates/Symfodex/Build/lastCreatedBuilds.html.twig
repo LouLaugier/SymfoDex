@@ -1,0 +1,9 @@
+<ul class="nav nav-pills nav-stacked">
+	{% for build in listBuild %}
+		<li>
+			<a href="{{ path('sd_pok_view', {'id': build.id}) }}">
+				{{ build.title }}
+			</a>
+		</li>
+	{% endfor %}
+</ul>;

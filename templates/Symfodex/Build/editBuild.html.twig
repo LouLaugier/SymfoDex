@@ -1,0 +1,22 @@
+{% extends "Symfodex/build_layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Edit{% endblock %}
+
+{% block sd_build_body %}
+
+	<h2>Modifier un build</h2>
+	
+	<div class="formulaire">
+		{{ include("Symfodex/Build/_form.html.twig") }}
+	</div>
+	
+	<br>
+	
+	<p>
+		<a href="{{ path('sd_pok_view', {'id': build.id}) }}" class="btn btn-default">
+			<i class="glyphicon glyphicon-chevron-left"></i>
+			Retour au build
+		</a>
+	</p>
+	
+{% endblock %}

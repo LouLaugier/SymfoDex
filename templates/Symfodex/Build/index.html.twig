@@ -1,0 +1,30 @@
+{% extends "Symfodex/build_layout.html.twig" %}
+
+{% block title %}
+	Accueil - {{ parent() }}
+{% endblock %}
+
+{% block sd_build_body %}
+	<h2>Liste des builds</h2>
+	<ul>
+		{% for build in listBuild %}
+			<li>
+				<a href="{{ path('sd_pok_view', {'id': build.id}) }}">
+					{{ build.title }}
+				</a>
+				par {{ build.author }}
+			</li>
+		{% else %}
+			<li>Pas (encore) de build</li>
+		{% endfor %}
+	</ul>
+	
+	<ul class="pagination">
+	  {% for p in range(1, nbPages) %}
+		<li{% if p == page %} class="active"{% endif %}>
+		  <a href="{{ path('sd_pok_index', {'page': p}) }}">{{ p }}</a>
+		</li>
+	  {% endfor %}
+	</ul>
+
+{% endblock %}

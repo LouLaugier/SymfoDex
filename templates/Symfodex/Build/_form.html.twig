@@ -1,0 +1,280 @@
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+{{ form_errors(form) }}
+
+<div class="form-group">
+	{{ form_label(form.date, "Date", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	{{ form_errors(form.date) }}
+	<div class="col-sm-10">
+		{{ form_widget(form.date) }}
+	</div>
+</div>
+
+<div class="form-group">
+	{{ form_label(form.title, "Titre du build", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	{{ form_errors(form.title) }}
+	<div class="col-sm-6">
+		{{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="form-group">
+	{{ form_label(form.author, "Auteur du build", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	{{ form_errors(form.author) }}
+	<div class="col-sm-6">
+		{{ form_widget(form.author, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+<div class="form-group">
+	{{ form_label(form.pokemon, "Pokemon", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	{{ form_errors(form.pokemon) }}
+	<div class="col-sm-3">
+		{{ form_widget(form.pokemon, {'attr': {'class': 'form-control choixPokemon'}}) }}
+	</div>
+</div>
+
+<div id="subFormulaire" class="form-group" style="width:900px; margin:0 auto;">
+	<div id="subFormcontent">
+		{% if not build.pokemon is null %}	
+		
+		{% if not build.image is null %}
+			<img src="{{ build.image.url }}" alt="{{ build.image.alt }}"> <br>
+		{% endif %}
+	
+		{% if not build.pokemon.types.empty %}
+			<p>Type(s) : 
+				{% for type in build.pokemon.types %}
+				  {{ type.name }}{% if not loop.last %}, {% endif %}
+				{% endfor %}
+			</p>	
+		{% endif %}
+		
+		<table>
+			<tr>
+			  <td width="8%">
+				<div class="form-group">Pv :</div>
+			  </td>
+			  <td width="8%">
+				<div class="form-group" id="basePv">{{ build.pokemon.baseStatPv }}</div>
+			  </td> 
+			  <td width="30%"><div class="graphBar" id="barPv"></div></td>	
+			  <td width="23%">
+				<div class="form-group">
+					{{ form_label(form.evPv, "EV.PV", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.evPv) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.evPv, {'attr': {'min': '0', 'max': '252', 'value': build.evPv|default('0')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td width="23%">
+				<div class="form-group">
+					{{ form_label(form.ivPv, "IV.PV", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.ivPv) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.ivPv, {'attr': {'min': '0', 'max': '31', 'value': build.ivPv|default('31')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td width="8%">
+				<div class="form-group" id="totalPv"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				<div class="form-group">Atk :</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="baseAtk">{{ build.pokemon.baseStatAtk }}</div>
+			  </td>
+			  <td><div class="graphBar" id="barAtk"></div></td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.evAtk, "EV.Atk", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.evAtk) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.evAtk, {'attr': {'min': '0', 'max': '252', 'value': build.evAtk|default('0')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.ivAtk, "IV.Atk", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.ivAtk) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.ivAtk, {'attr': {'min': '0', 'max': '31', 'value': build.ivAtk|default('31')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="totalAtk"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				<div class="form-group">Def :</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="baseDef">{{ build.pokemon.baseStatDef }}</div>
+			  </td>
+			  <td><div class="graphBar" id="barDef"></div></td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.evDef, "EV.Def", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.evDef) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.evDef, {'attr': {'min': '0', 'max': '252', 'value': build.evDef|default('0')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.ivDef, "IV.Def", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.ivDef) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.ivDef, {'attr': {'min': '0', 'max': '31', 'value': build.ivDef|default('31')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="totalDef"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				<div class="form-group">Spa :</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="baseSpa">{{ build.pokemon.baseStatSpa }}</div>
+			  </td>
+			  <td><div class="graphBar" id="barSpa"></div></td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.evSpa, "EV.SpA", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.evSpa) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.evSpa, {'attr': {'min': '0', 'max': '252', 'value': build.evSpa|default('0')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.ivSpa, "IV.SpA", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.ivSpa) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.ivSpa, {'attr': {'min': '0', 'max': '31', 'value': build.ivSpa|default('31')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="totalSpa"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				<div class="form-group">Spd :</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="baseSpd">{{ build.pokemon.baseStatSpd }}</div>
+			  </td>
+			  <td><div class="graphBar" id="barSpd"></div></td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.evSpd, "EV.SpD", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.evSpd) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.evSpd, {'attr': {'min': '0', 'max': '252', 'value': build.evSpd|default('0')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.ivSpd, "IV.SpD", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.ivSpd) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.ivSpd, {'attr': {'min': '0', 'max': '31', 'value': build.ivSpd|default('31')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="totalSpd"></div>
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				<div class="form-group">Spe :</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="baseSpe">{{ build.pokemon.baseStatSpe }}</div>
+			  </td>
+			  <td><div class="graphBar" id="barSpe"></div></td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.evSpe, "EV.Spe", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.evSpe) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.evSpe, {'attr': {'min': '0', 'max': '252', 'value': build.evSpe|default('0')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group">
+					{{ form_label(form.ivSpe, "IV.Spe", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+					{{ form_errors(form.ivSpe) }}
+					<div class="col-sm-6">
+						{{ form_widget(form.ivSpe, {'attr': {'min': '0', 'max': '31', 'value': build.ivSpe|default('31')}}) }}
+					</div>
+				</div>
+			  </td>
+			  <td>
+				<div class="form-group" id="totalSpe"></div>
+			  </td>
+			</tr>
+		</table>
+		
+		<span>Remaining : <span id="evRemaining">510</span></span>
+		
+		<div class="form-group">
+			{{ form_label(form.nature, "Nature", {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+			{{ form_errors(form.nature) }}
+			<div class="col-sm-3">
+				{{ form_widget(form.nature, {'attr': {'class': 'form-control choixNature', 'value': build.nature.id|default('1')}}) }}
+			</div>
+		</div>
+		
+		<div class="form-group">
+			{{ form_label(form.ability, "Talent", {'label_attr': {'class': 'col-sm-1 control-label'}}) }}
+			{{ form_errors(form.ability) }}
+			<div class="col-sm-3">
+				{{ form_widget(form.ability, {'attr': {'class': 'form-control choixTalent', 'value': build.ability.id|default('1')}}) }}
+			</div>
+		</div>
+		
+	{% endif %}
+	</div>
+</div>
+
+<div class="form-group">
+	{{ form_label(form.content, "Commentaires", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+	{{ form_errors(form.content) }}
+	<div class="col-sm-6">
+		{{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+	</div>
+</div>
+
+{{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+
+{{ form_end(form, {'render_rest': false}) }}
+
+<script>
+	$(document).ready(function () {
+		setSubForm();
+		setFormValidationEventListener();
+		if(typeof($('.choixNature').val()) !== 'undefined') {
+			setNatureBonus($('.choixNature').val());
+		}
+		setNatureBonusEventListener();
+		setAllTotStat(true);
+		setStatBar(true);
+	});
+</script>
